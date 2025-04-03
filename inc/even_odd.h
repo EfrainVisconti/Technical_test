@@ -33,12 +33,9 @@ void  run_program(Program *program);
 
 //threads.c
 bool  init_mutexes(Program *program);
-bool  create_threads(Program * program);
+void  create_threads(Program * program);
 
 //utils.c
 void  free_exit(Program *program);
-void free_list(Node *list);
-Node  *get_last_node(Node *list);
-void    add_new_node(Node **list, int number);
 
 #endif

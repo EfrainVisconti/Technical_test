@@ -9,6 +9,7 @@ typedef struct
   pthread_mutex_t	*odd_mutex;
   pthread_t pthread;
   int *numbers_received;
+  int list_size;
 } Threads;
 
 typedef struct

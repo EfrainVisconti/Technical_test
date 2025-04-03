@@ -1,17 +1,11 @@
 # include "../inc/even_odd.h"
 
-//int pthread_detach(pthread_t thread);
-
-//int pthread_mutex_lock(pthread_mutex_t *mutex);
-//int pthread_mutex_unlock(pthread_mutex_t *mutex);
-
-
 static void	*numbers_routine(void *arg)
 {
 	Threads	*thread = (Threads *)arg;
     
     int i = 0;
-    while (thread->numbers_received[i] != NULL)
+    while (i < thread->list_size)
     {
         if (thread->numbers_received[i] % 2 == 0)
         {
@@ -25,6 +19,7 @@ static void	*numbers_routine(void *arg)
             add_new_node(thread->odd, thread->numbers_received[i]);
             pthread_mutex_unlock(thread->odd_mutex); 
         }
+        i++;
     }
 	return (arg);
 }
@@ -47,22 +42,15 @@ bool init_mutexes(Program *program)
     return true;
 }
 
-bool create_threads(Program *program)
+void create_threads(Program *program)
 {
-    program->threads = malloc(program->thread_num * sizeof(pthread_t));
-    if (program->threads == NULL)
-    {
-        fprintf(stderr, "Error: Occurred while creating threads.\n");
-        return false;
-    }
-
     int i = 0;
     while (i < program->thread_num)
 	{
-		if (pthread_create(&(program->threads->pthread[i]), NULL, &numbers_routine, (void *)program->threads[i]))
+		if (pthread_create(&(program->threads[i].pthread), NULL, &numbers_routine, (void *)&(program->threads[i])) != 0)
 		{
             fprintf(stderr, "Error: Occurred while creating threads.\n");
-            return false;
+            free_exit(program);
         }
         i++;
 	}
@@ -70,13 +58,11 @@ bool create_threads(Program *program)
     i = 0;
     while (i < program->thread_num)
 	{
-		if (pthread_join(program->threads[i], NULL) != 0)
+		if (pthread_join(program->threads[i].pthread, NULL) != 0)
         {
             fprintf(stderr, "Error: Occurred while joining threads.\n");
-            return false;
+            free_exit(program);
         }
         i++;
 	}
-
-    return true;
 }
