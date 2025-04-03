@@ -11,14 +11,14 @@ static void	*numbers_routine(void *arg)
         {
             pthread_mutex_lock(thread->even_mutex);
             add_new_node(thread->even, thread->numbers_received[i]);
-            printf("Number: %d added to even by thread: %d\n", thread->numbers_received[i], thread->index);
+            //printf("Number: %d added to even by thread: %d\n", thread->numbers_received[i], thread->index); //to debug
             pthread_mutex_unlock(thread->even_mutex); 
         }
         else
         {
             pthread_mutex_lock(thread->odd_mutex);
             add_new_node(thread->odd, thread->numbers_received[i]);
-            printf("Number: %d added to odd by thread: %d\n", thread->numbers_received[i], thread->index);
+            //printf("Number: %d added to odd by thread: %d\n", thread->numbers_received[i], thread->index); //to debug
             pthread_mutex_unlock(thread->odd_mutex); 
         }
         i++;
