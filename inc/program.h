@@ -3,14 +3,23 @@
 
 typedef struct
 {
+  Node **even;
+  Node **odd;
+  pthread_mutex_t	*even_mutex;
+  pthread_mutex_t	*odd_mutex;
+  pthread_t pthread;
+  int *numbers_received;
+} Threads;
+
+typedef struct
+{
   int numbers_per_thread;
   int thread_num;
-  Node *even;
-  Node *odd;
+  Node **even;
+  Node **odd;
   pthread_mutex_t	even_mutex;
   pthread_mutex_t	odd_mutex;
-  pthread_t *threads;
-  int *numbers_received;
+  Threads *threads;
 } Program;
 
 #endif

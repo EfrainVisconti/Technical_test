@@ -4,6 +4,7 @@
 typedef struct
 {
 	int	number;
+	Node *next;
 } Node;
 
 #endif

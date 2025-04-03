@@ -6,12 +6,26 @@
 //int pthread_mutex_unlock(pthread_mutex_t *mutex);
 
 
-static void	*routine(void *arg)
+static void	*numbers_routine(void *arg)
 {
-	Program	*program;
-
-	program = (Program *)arg;
-    printf("Hola\n");
+	Threads	*thread = (Threads *)arg;
+    
+    int i = 0;
+    while (thread->numbers_received[i] != NULL)
+    {
+        if (thread->numbers_received[i] % 2 == 0)
+        {
+            pthread_mutex_lock(thread->even_mutex);
+            add_new_node(thread->even, thread->numbers_received[i]);
+            pthread_mutex_unlock(thread->even_mutex); 
+        }
+        else
+        {
+            pthread_mutex_lock(thread->odd_mutex);
+            add_new_node(thread->odd, thread->numbers_received[i]);
+            pthread_mutex_unlock(thread->odd_mutex); 
+        }
+    }
 	return (arg);
 }
 
@@ -33,7 +47,7 @@ bool init_mutexes(Program *program)
     return true;
 }
 
-bool init_threads(Program *program)
+bool create_threads(Program *program)
 {
     program->threads = malloc(program->thread_num * sizeof(pthread_t));
     if (program->threads == NULL)
@@ -45,7 +59,7 @@ bool init_threads(Program *program)
     int i = 0;
     while (i < program->thread_num)
 	{
-		if (pthread_create(&(program->threads[i]), NULL, &routine, (void *)program->threads[i]))
+		if (pthread_create(&(program->threads->pthread[i]), NULL, &numbers_routine, (void *)program->threads[i]))
 		{
             fprintf(stderr, "Error: Occurred while creating threads.\n");
             return false;
