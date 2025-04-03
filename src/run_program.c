@@ -14,7 +14,6 @@ static bool handle_duplicate(int *list, int number, int size)
 
 static int *generate_random_list(Program *program)
 {
-    srand(time(NULL));
     int i = 0;
     int *list = malloc(program->numbers_per_thread * sizeof(int));
     if (list == NULL)
@@ -68,6 +67,7 @@ static void    init_threads(Program *program)
     int i = 0;
     while (i < program->thread_num)
     {
+        program->threads[i].index = i + 1;
         program->threads[i].even_mutex = &program->even_mutex;
         program->threads[i].odd_mutex = &program->odd_mutex;
         program->threads[i].even = program->even;
@@ -91,6 +91,7 @@ void print_list(Node *list)
 
 void    run_program(Program *program)
 {
+    srand(time(NULL));
     if (init_mutexes(program) == false)
         free_exit(program);
     init_threads(program);

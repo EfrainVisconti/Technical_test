@@ -11,12 +11,14 @@ static void	*numbers_routine(void *arg)
         {
             pthread_mutex_lock(thread->even_mutex);
             add_new_node(thread->even, thread->numbers_received[i]);
+            printf("Number: %d added to even by thread: %d\n", thread->numbers_received[i], thread->index);
             pthread_mutex_unlock(thread->even_mutex); 
         }
         else
         {
             pthread_mutex_lock(thread->odd_mutex);
             add_new_node(thread->odd, thread->numbers_received[i]);
+            printf("Number: %d added to odd by thread: %d\n", thread->numbers_received[i], thread->index);
             pthread_mutex_unlock(thread->odd_mutex); 
         }
         i++;
@@ -50,19 +52,22 @@ void create_threads(Program *program)
 		if (pthread_create(&(program->threads[i].pthread), NULL, &numbers_routine, (void *)&(program->threads[i])) != 0)
 		{
             fprintf(stderr, "Error: Occurred while creating threads.\n");
-            free_exit(program);
+            break;
         }
         i++;
 	}
 
-    i = 0;
-    while (i < program->thread_num)
+    int j = 0;
+    int flag_error = 0;
+    while (j < i)
 	{
-		if (pthread_join(program->threads[i].pthread, NULL) != 0)
+		if (pthread_join(program->threads[j].pthread, NULL) != 0)
         {
             fprintf(stderr, "Error: Occurred while joining threads.\n");
-            free_exit(program);
+            flag_error = 1;
         }
-        i++;
+        j++;
 	}
+    if (i < program->thread_num || flag_error)
+        free_exit(program);
 }

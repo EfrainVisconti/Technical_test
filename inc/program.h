@@ -10,6 +10,7 @@ typedef struct
   pthread_t pthread;
   int *numbers_received;
   int list_size;
+  int index; //to debug
 } Threads;
 
 typedef struct

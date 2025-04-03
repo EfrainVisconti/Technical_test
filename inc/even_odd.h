@@ -20,7 +20,8 @@ typedef enum {
     ERROR
 } mode;
 
-# define FILE_BUFFER 1024
+# define MAX_THREAD_NUM 1000
+# define MAX_NUM_PER_THREAD 1000000
 
 //check_args.c
 mode    check_args(int argc, char **argv);
@@ -37,5 +38,6 @@ void  create_threads(Program * program);
 
 //utils.c
 void  free_exit(Program *program);
+void  free_aux(Program *program);
 
 #endif

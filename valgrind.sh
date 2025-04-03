@@ -1,0 +1,1 @@
+make && valgrind --leak-check=full --log-file=valgrind.log ./Even_odd -f conf/cfg.txt
