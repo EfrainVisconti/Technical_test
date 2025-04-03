@@ -17,6 +17,9 @@ int main(int argc, char **argv)
         return EXIT_FAILURE;
 
     printf("NUM_PER_THREAD: %d\nTHREAD_NUM: %d\n", program.numbers_per_thread, program.thread_num);
-    //execute();
+    run_program(&program);
+
+    pthread_mutex_destroy(&program.even_mutex);
+    pthread_mutex_destroy(&program.odd_mutex);
     return EXIT_SUCCESS;
 }

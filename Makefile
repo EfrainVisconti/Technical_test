@@ -2,9 +2,9 @@ NAME		=	Even_odd
 
 DEL			=	rm -f
 CC			=	gcc
-CCFLAGS		=	-Wall -Werror -Wextra -g3
+CCFLAGS		=	-Wall -Werror -Wextra -g3 -pthread
 
-SRC_FILES	=	main check_args parse_file
+SRC_FILES	=	main check_args parse_file run_program threads
 SRC			=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ			=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 
