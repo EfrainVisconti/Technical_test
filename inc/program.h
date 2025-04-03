@@ -10,6 +10,7 @@ typedef struct
   pthread_mutex_t	even_mutex;
   pthread_mutex_t	odd_mutex;
   pthread_t *threads;
+  int *numbers_received;
 } Program;
 
 #endif
