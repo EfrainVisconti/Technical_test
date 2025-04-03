@@ -6,6 +6,8 @@
 # include <stdbool.h>
 # include <string.h>
 # include <fcntl.h>
+# include <sys/types.h>
+# include <ctype.h>
 
 typedef struct
 {

@@ -1,4 +1,4 @@
-# include "../inc/Even_odd.h"
+# include "../inc/even_odd.h"
 
 int main(int argc, char **argv)
 {
@@ -14,11 +14,9 @@ int main(int argc, char **argv)
     }
 
     if (parse_file(argv[2], &program) == false)
-    {
-        fprintf(stderr, "Error: While validating configuration.\n");
         return EXIT_FAILURE;
-    }
 
+    printf("NUM_PER_THREAD: %d\nTHREAD_NUM: %d\n", program.numbers_per_thread, program.thread_num);
     //execute();
     return EXIT_SUCCESS;
 }
