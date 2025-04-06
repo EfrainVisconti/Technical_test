@@ -1,18 +1,47 @@
 # include "../inc/even_odd.h"
 
-static bool check_value(char *line)
+static void trim_whitespace(char *str)
 {
-    if (line == NULL || line[0] == '\0')
-        return false;
+    char *start = str;
+    while (isspace(*start))
+        start++;
 
-    int i = 0;
-    while (line[i] != '\0')
+    char *end = start + strlen(start) - 1;
+    while (end > start && isspace(*end))
+        end--;
+
+    *(end + 1) = '\0';
+    memmove(str, start, end - start + 2);
+}
+
+static bool handle_keys(char *key, char *value, Program *program)
+{
+    if (strcmp(key, "numbers_per_thread") == 0)
     {
-        if (!isdigit(line[i]) && !isspace(line[i]))
+        char *aux;
+        program->numbers_per_thread = strtol(value, &aux, 10);
+        if (*aux != '\0' || program->numbers_per_thread <= 0)// || program->numbers_per_thread > MAX_NUM_PER_THREAD)
+        {
+            fprintf(stderr, "Error: Invalid number for numbers_per_thread.\n");
             return false;
-        i++;
+        }
+        return true;
     }
-    return true;
+
+    if (strcmp(key, "thread_num") == 0)
+    {
+        char *aux;
+        program->thread_num = strtol(value, &aux, 10);
+        if (*aux != '\0' || program->thread_num <= 0)// || program->thread_num > MAX_THREAD_NUM)
+        {
+            fprintf(stderr, "Error: Invalid number for thread_num.\n");
+            return false;
+        }
+        return true;
+    }
+
+    fprintf(stderr, "Error: Invalid line found in config file.\n");
+    return false;
 }
 
 static bool parse_line(char *line, Program *program)
@@ -28,43 +57,12 @@ static bool parse_line(char *line, Program *program)
         return false;
     }
 
-    while (isspace(*value))
-        value++;
-    char *end = value + strlen(value) - 1;
-    while (end > value && isspace(*end)) end--;
-    *(end + 1) = '\0';
+    trim_whitespace(key);
+    trim_whitespace(value);
 
-    if (strcmp(key, "numbers_per_thread") == 0 || strcmp(key, "numbers_per_thread ") == 0)
-    {
-        if (check_value(value) == true)
-        {
-            char *aux;
-            program->numbers_per_thread = strtol(value, &aux, 10);
-            if (*aux != '\0' || program->numbers_per_thread > MAX_NUM_PER_THREAD)
-            {
-                fprintf(stderr, "Error: Invalid number for numbers_per_thread.\n");
-                return false;
-            }
-            return true;
-        }
-    }
+    if (handle_keys(key, value, program))
+        return true;
 
-    if (strcmp(key, "thread_num") == 0 || strcmp(key, "thread_num ") == 0)
-    {
-        if (check_value(value) == true)
-        {
-            char *aux;
-            program->thread_num = strtol(value, &aux, 10);
-            if (*aux != '\0' || program->thread_num > MAX_THREAD_NUM)
-            {
-                fprintf(stderr, "Error: Invalid number for thread_num.\n");
-                return false;
-            }
-            return true;
-        }
-    }
-
-    fprintf(stderr, "Error: Invalid line found in config file.\n");
     return false;
 }
 
@@ -103,5 +101,6 @@ bool parse_file(char *pathfile, Program *program)
         fprintf(stderr, "Error: Config file is empty.\n");
         return false;
     }
+
     return true;
 }

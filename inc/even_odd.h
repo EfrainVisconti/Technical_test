@@ -21,7 +21,7 @@ typedef enum {
 } mode;
 
 # define MAX_THREAD_NUM 1000
-# define MAX_NUM_PER_THREAD 1000000
+# define MAX_NUM_PER_THREAD 10000000
 
 //check_args.c
 mode    check_args(int argc, char **argv);
@@ -37,6 +37,7 @@ bool  init_mutexes(Program *program);
 void  create_threads(Program * program);
 
 //utils.c
+void  destroy_mutexes(Program *program);
 void  free_exit(Program *program);
 void  free_aux(Program *program);
 

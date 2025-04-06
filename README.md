@@ -20,10 +20,15 @@ El proyecto se divide en tres partes principales:
 Durante la ejecución:
 - Se generan listas de números aleatorios que serán distribuidos entre los hilos.
 - Se crean y gestionan los hilos, asegurando sincronización mediante `pthread_mutex_t`.
+- Cada hilo procesa los números de la lista recibida y los añaden a dos listas compartidas
+por todos: pares e impares.
 
 Se imprimen los números procesados con su posición en la lista en el siguiente formato:
 ```
-Position: 0, --> Value: 1863858051
+ODD NUMBERS:
+Position: 0 --> Value: 1863
+EVEN NUMBERS:
+Position: 0 --> Value: 5508
 ```
 En caso de errores, se generan mensajes explícitos por la salida estándar de error (`stderr`).
 
@@ -74,17 +79,22 @@ typedef struct {
 
 ## Compilación y Ejecución
 Se usó `make` con `gcc` siguiendo las siguientes normas de compilación:
-
+- **make** (compila el programa y genera el ejecutable Even_odd).
+- **make clean** (elimina los archivos objeto .o).
+- **make fclean** (elimina los archivos objeto y el ejecutable).
+- **make re** (recompila completamente el proyecto).
 
 Para compilar y ejecutar el programa:
 ```sh
 make
-./even_odd config.txt
+./Even_odd -f path/to/config.txt
+./Even_odd --file path/to/config.txt
 ```
 
 Para ver la ayuda:
 ```sh
-./even_odd --help
+./Even_odd --help
+./Even_odd -h
 ```
 
 ---

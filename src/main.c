@@ -2,14 +2,18 @@
 
 int main(int argc, char **argv)
 {
-    Program program;
+    Program program = {0};
 
     mode execution_mode = check_args(argc, argv);
     if (execution_mode == ERROR)
         return EXIT_FAILURE;
     if (execution_mode == HELP)
     {
-        printf("Usage: %s path/to/file.txt\n", argv[0]);
+        printf("Usage:\n");
+        printf("  %s -f PATH\n", argv[0]);
+        printf("  %s --file PATH\n", argv[0]);
+        printf("\nOptions:\n");
+        printf("  -f, --file PATH   Path to configuration file, must be .txt\n");
         return EXIT_SUCCESS;
     }
 
@@ -20,7 +24,7 @@ int main(int argc, char **argv)
     run_program(&program);
 
     free_aux(&program);
-    pthread_mutex_destroy(&program.even_mutex);
-    pthread_mutex_destroy(&program.odd_mutex);
+    destroy_mutexes(&program);
+
     return EXIT_SUCCESS;
 }

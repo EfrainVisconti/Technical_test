@@ -5,6 +5,7 @@ typedef struct Node
 {
 	int	number;
 	struct Node *next;
+	struct Node *last;
 } Node;
 
 //node.c
