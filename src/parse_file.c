@@ -20,7 +20,7 @@ static bool handle_keys(char *key, char *value, Program *program)
     {
         char *aux;
         program->numbers_per_thread = strtol(value, &aux, 10);
-        if (*aux != '\0' || program->numbers_per_thread <= 0)// || program->numbers_per_thread > MAX_NUM_PER_THREAD)
+        if (*aux != '\0' || program->numbers_per_thread <= 0 || program->numbers_per_thread > MAX_NUM_PER_THREAD)
         {
             fprintf(stderr, "Error: Invalid number for numbers_per_thread.\n");
             return false;
@@ -32,7 +32,7 @@ static bool handle_keys(char *key, char *value, Program *program)
     {
         char *aux;
         program->thread_num = strtol(value, &aux, 10);
-        if (*aux != '\0' || program->thread_num <= 0)// || program->thread_num > MAX_THREAD_NUM)
+        if (*aux != '\0' || program->thread_num <= 0 || program->thread_num > MAX_THREAD_NUM)
         {
             fprintf(stderr, "Error: Invalid number for thread_num.\n");
             return false;

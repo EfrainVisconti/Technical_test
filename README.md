@@ -1,5 +1,16 @@
 # Proyecto: Procesamiento Concurrente de Números
 
+## Mejoras fuera de tiempo en rama timed-out
+- Se arregló el mensaje mostrado con la opción -h o --help.
+- Se mejoró la legibilidad y seguridad del parseo del archivo,
+  añadiendo la función trim_whitespace() y el chequeo de numeros <= 0.
+- Se mejoro el cheaqueo de numeros duplicados mediante el algoritmo
+  fisher_yates_shuffle(). Lo que evita bucles infinitos cuando **`numbers_per_thread`**
+  es muy grande.
+- Se acoto el rango de numeros generados.
+- Se mejoro la eficiencia en la gestion de las listas, al almacenar el ultimo nodo siempre
+  y evitar recorrer toda la lista al añadir un nuevo nodo.
+
 ## Descripción
 Este proyecto consiste en un programa que recibe como parámetro un archivo de configuración `.txt` con formato clave-valor. Dicho archivo define la cantidad de números a procesar por cada hilo y la cantidad total de hilos que se ejecutarán.
 
